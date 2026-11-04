@@ -2,6 +2,16 @@
 
 A Java desktop application demonstrating encapsulation, inheritance, polymorphism, interfaces, and associations.
 
+## Group Members
+
+| Full Name | Student Number |
+| :--- | :--- |
+| Proud Chisoda | 2410083 |
+| Comfort Penyengwe | 2410098 |
+| Lamla Mwanza | 2410205 |
+| Lubuto Matambo | 2410171 |
+| Gideon Namuya | 2410149 |
+
 ## Requirements
 
 Java Development Kit (JDK) 8 or later.
