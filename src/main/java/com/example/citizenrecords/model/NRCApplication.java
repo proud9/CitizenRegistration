@@ -1,5 +1,6 @@
 package com.example.citizenrecords.model;
 
+import com.example.citizenrecords.exception.InvalidRecordException;
 import java.time.LocalDate;
 
 /**
@@ -15,7 +16,7 @@ public class NRCApplication extends CitizenRecord {
     public NRCApplication(String fullName, LocalDate dateOfBirth, String birthRecordId) {
         super(fullName, dateOfBirth);
         if (birthRecordId == null || birthRecordId.trim().isEmpty()) {
-            throw new IllegalArgumentException("Birth record internal ID is required.");
+            throw new InvalidRecordException("Birth record internal ID is required.");
         }
         this.birthRecordId = birthRecordId.trim();
     }
@@ -26,7 +27,7 @@ public class NRCApplication extends CitizenRecord {
     public NRCApplication(String recordId, String fullName, LocalDate dateOfBirth, String birthRecordId, String status) {
         super(recordId, fullName, dateOfBirth);
         if (birthRecordId == null || birthRecordId.trim().isEmpty()) {
-            throw new IllegalArgumentException("Birth record internal ID is required.");
+            throw new InvalidRecordException("Birth record internal ID is required.");
         }
         this.birthRecordId = birthRecordId.trim();
         setStatus(status);
@@ -42,7 +43,7 @@ public class NRCApplication extends CitizenRecord {
 
     public void setStatus(String status) {
         if (status == null || !(status.equals("PENDING") || status.equals("APPROVED") || status.equals("REJECTED"))) {
-            throw new IllegalArgumentException("Status must be PENDING, APPROVED, or REJECTED.");
+            throw new InvalidRecordException("Status must be PENDING, APPROVED, or REJECTED.");
         }
         this.status = status;
     }

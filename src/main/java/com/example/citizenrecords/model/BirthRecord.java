@@ -1,5 +1,6 @@
 package com.example.citizenrecords.model;
 
+import com.example.citizenrecords.exception.InvalidRecordException;
 import java.time.LocalDate;
 
 /**
@@ -14,7 +15,7 @@ public class BirthRecord extends CitizenRecord {
     public BirthRecord(String fullName, LocalDate dateOfBirth, String placeOfBirth) {
         super(fullName, dateOfBirth);
         if (placeOfBirth == null || placeOfBirth.trim().isEmpty()) {
-            throw new IllegalArgumentException("Place of birth is required.");
+            throw new InvalidRecordException("Place of birth is required.");
         }
         this.placeOfBirth = placeOfBirth.trim();
     }
@@ -25,7 +26,7 @@ public class BirthRecord extends CitizenRecord {
     public BirthRecord(String recordId, String fullName, LocalDate dateOfBirth, String placeOfBirth) {
         super(recordId, fullName, dateOfBirth);
         if (placeOfBirth == null || placeOfBirth.trim().isEmpty()) {
-            throw new IllegalArgumentException("Place of birth is required.");
+            throw new InvalidRecordException("Place of birth is required.");
         }
         this.placeOfBirth = placeOfBirth.trim();
     }

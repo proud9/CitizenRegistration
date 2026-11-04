@@ -1,5 +1,6 @@
 package com.example.citizenrecords;
 
+import com.example.citizenrecords.exception.InvalidRecordException;
 import com.example.citizenrecords.exception.RecordNotFoundException;
 import com.example.citizenrecords.model.BirthRecord;
 import com.example.citizenrecords.model.CitizenRecord;
@@ -24,8 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Comprehensive JUnit 5 test suite verifying core Object-Oriented principles:
- * Encapsulation, Inheritance, Polymorphism, Interface contracts, Custom Exceptions,
- * Collections, and Data Persistence across restarts.
+ * Encapsulation, Inheritance, Polymorphism, Interface contracts, Custom Exceptions
+ * (RecordNotFoundException and InvalidRecordException), Collections, and Data Persistence.
  *
  * <p>Arranged following the Arrange-Act-Assert testing pattern (Week 2).
  */
@@ -52,34 +53,34 @@ public class CitizenRecordTest {
     }
 
     // -------------------------------------------------------------
-    // Test 2: Input Validation - Future Date of Birth (Week 4)
+    // Test 2: Custom Exception - InvalidRecordException on Future Date (Weeks 4 & 8)
     // -------------------------------------------------------------
     @Test
     public void test02_BirthRecordRejectsFutureDateOfBirth() {
         // Arrange
         LocalDate futureDate = LocalDate.now().plusDays(5);
 
-        // Act & Assert - fail-fast validation in constructor
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
+        // Act & Assert - custom exception thrown on invalid input
+        InvalidRecordException ex = assertThrows(InvalidRecordException.class, () -> {
             new BirthRecord("Future Baby", futureDate, "Ndola");
         });
         assertTrue(ex.getMessage().contains("not in the future"));
     }
 
     // -------------------------------------------------------------
-    // Test 3: Input Validation - Blank Name / Place (Week 4)
+    // Test 3: Custom Exception - InvalidRecordException on Blank Input (Weeks 4 & 8)
     // -------------------------------------------------------------
     @Test
     public void test03_BirthRecordRejectsBlankNameAndPlace() {
         LocalDate validDob = LocalDate.of(2000, 1, 1);
 
         // Blank name check
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(InvalidRecordException.class, () -> {
             new BirthRecord("   ", validDob, "Kitwe");
         });
 
         // Blank place check
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(InvalidRecordException.class, () -> {
             new BirthRecord("John Doe", validDob, "");
         });
     }
@@ -112,7 +113,7 @@ public class CitizenRecordTest {
     }
 
     // -------------------------------------------------------------
-    // Test 6: Domain Rules & Status Mutation Validation (Week 4)
+    // Test 6: Domain Rules & Status Mutation Validation (Weeks 4 & 8)
     // -------------------------------------------------------------
     @Test
     public void test06_NRCApplicationStatusTransitionsAndValidation() {
@@ -125,8 +126,8 @@ public class CitizenRecordTest {
         app.setStatus("REJECTED");
         assertEquals("REJECTED", app.getStatus());
 
-        // Invalid status should be refused
-        assertThrows(IllegalArgumentException.class, () -> {
+        // Invalid status should trigger InvalidRecordException
+        assertThrows(InvalidRecordException.class, () -> {
             app.setStatus("CANCELLED");
         });
     }

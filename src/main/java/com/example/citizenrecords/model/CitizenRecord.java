@@ -1,5 +1,6 @@
 package com.example.citizenrecords.model;
 
+import com.example.citizenrecords.exception.InvalidRecordException;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -29,13 +30,13 @@ public abstract class CitizenRecord {
      */
     protected CitizenRecord(String recordId, String fullName, LocalDate dateOfBirth) {
         if (recordId == null || recordId.trim().isEmpty()) {
-            throw new IllegalArgumentException("Record ID is required.");
+            throw new InvalidRecordException("Record ID is required.");
         }
         if (fullName == null || fullName.trim().isEmpty()) {
-            throw new IllegalArgumentException("Name is required.");
+            throw new InvalidRecordException("Name is required.");
         }
         if (dateOfBirth == null || dateOfBirth.isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("Enter a valid date of birth that is not in the future.");
+            throw new InvalidRecordException("Enter a valid date of birth that is not in the future.");
         }
         this.recordId = recordId.trim();
         this.fullName = fullName.trim();

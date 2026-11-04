@@ -15,6 +15,7 @@ Java Development Kit (JDK) 8 or later.
 - **`FileRecordRepository`**: Persistent implementation of `RecordRepository` saving and reloading records to/from `data/records.txt` so records survive restarts.
 - **`InMemoryRecordRepository`**: Transient repository implementation for in-memory testing.
 - **`RecordNotFoundException`**: Custom exception thrown when a record query yields no match.
+- **`InvalidRecordException`**: Custom exception thrown when record input violates domain validation rules.
 - **`RecordManagerFrame`**: Swing-based desktop UI for clerks to create, search, review, and manage records.
 - **`App`**: Main entry point wiring `FileRecordRepository` into the UI.
 
@@ -46,5 +47,11 @@ java -jar lib/junit-platform-console-standalone.jar -cp out --select-class com.e
 2. **NRC Applications**: Select a birth record to submit a simulated identity application.
 3. **Data Persistence**: Records are saved locally to `data/records.txt` and automatically reload whenever the program is reopened.
 4. **Record Management**: Search by internal ID, view formatted details, update application approval status, or delete records.
+
+## AI Tool Disclosure (Course Policy Compliance)
+
+In accordance with the ZUT Object-Oriented Programming & Design course policy on responsible AI tool usage:
+- AI tools (Antigravity/LLM) were utilized as an educational tutor for code review, debugging, syntax validation, and designing JUnit 5 test cases.
+- All class hierarchies, encapsulation choices, polymorphism, exception handling, and data persistence logic were reviewed, verified, and are fully understood line-by-line by the team members for oral interview defense.
 
 *Note: All data is fictional and synthetic for academic demonstration. The system does not connect to government databases or issue valid identity documents.*
