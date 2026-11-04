@@ -3,3 +3,12 @@ out/
 .idea/
 *.iml
 .DS_Store
+
+# Persistent local data files
+data/
+
+# Security: Ignore any credentials or private keys
+*.key
+*.pem
+*.token
+.env

@@ -1,20 +1,59 @@
 package com.example.citizenrecords.model;
+
 import java.time.LocalDate;
-/** Simulated application record; it does not represent an issued identity document. */
+
+/**
+ * Concrete domain model representing a simulated NRC application linked to a birth record.
+ */
 public class NRCApplication extends CitizenRecord {
     private final String birthRecordId;
     private String status = "PENDING";
+
+    /**
+     * Creates a new simulated NRC application linked to a birth record.
+     */
     public NRCApplication(String fullName, LocalDate dateOfBirth, String birthRecordId) {
         super(fullName, dateOfBirth);
-        if (birthRecordId == null || birthRecordId.trim().isEmpty()) throw new IllegalArgumentException("Birth record internal ID is required.");
+        if (birthRecordId == null || birthRecordId.trim().isEmpty()) {
+            throw new IllegalArgumentException("Birth record internal ID is required.");
+        }
         this.birthRecordId = birthRecordId.trim();
     }
-    public String getBirthRecordId() { return birthRecordId; }
-    public String getStatus() { return status; }
+
+    /**
+     * Overloaded constructor for reloading stored applications and their status from persistent storage.
+     */
+    public NRCApplication(String recordId, String fullName, LocalDate dateOfBirth, String birthRecordId, String status) {
+        super(recordId, fullName, dateOfBirth);
+        if (birthRecordId == null || birthRecordId.trim().isEmpty()) {
+            throw new IllegalArgumentException("Birth record internal ID is required.");
+        }
+        this.birthRecordId = birthRecordId.trim();
+        setStatus(status);
+    }
+
+    public String getBirthRecordId() {
+        return birthRecordId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
     public void setStatus(String status) {
-        if (status == null || !(status.equals("PENDING") || status.equals("APPROVED") || status.equals("REJECTED"))) throw new IllegalArgumentException("Status must be PENDING, APPROVED, or REJECTED.");
+        if (status == null || !(status.equals("PENDING") || status.equals("APPROVED") || status.equals("REJECTED"))) {
+            throw new IllegalArgumentException("Status must be PENDING, APPROVED, or REJECTED.");
+        }
         this.status = status;
     }
-    @Override public String getRecordType() { return "Simulated NRC Application"; }
-    @Override public String toString() { return super.toString() + " | Birth record ID: " + birthRecordId + " | Status: " + status; }
+
+    @Override
+    public String getRecordType() {
+        return "Simulated NRC Application";
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " | Birth record ID: " + birthRecordId + " | Status: " + status;
+    }
 }
