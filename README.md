@@ -14,6 +14,7 @@ Java Development Kit (JDK) 8 or later.
 - **`RecordRepository`** *(interface)*: Defines the abstraction for CRUD storage operations (`save`, `findById`, `findAll`, `deleteById`).
 - **`FileRecordRepository`**: Persistent implementation of `RecordRepository` saving and reloading records to/from `data/records.txt` so records survive restarts.
 - **`InMemoryRecordRepository`**: Transient repository implementation for in-memory testing.
+- **`RecordNotFoundException`**: Custom exception thrown when a record query yields no match.
 - **`RecordManagerFrame`**: Swing-based desktop UI for clerks to create, search, review, and manage records.
 - **`App`**: Main entry point wiring `FileRecordRepository` into the UI.
 
@@ -22,13 +23,21 @@ Java Development Kit (JDK) 8 or later.
 Open a terminal in this folder and compile the Java sources:
 
 ```powershell
-javac -encoding UTF-8 -d out src/main/java/com/example/citizenrecords/exception/*.java src/main/java/com/example/citizenrecords/model/*.java src/main/java/com/example/citizenrecords/repository/*.java src/main/java/com/example/citizenrecords/ui/*.java src/main/java/com/example/citizenrecords/App.java
+javac -encoding UTF-8 -cp "out;lib/junit-platform-console-standalone.jar" -d out src/main/java/com/example/citizenrecords/exception/*.java src/main/java/com/example/citizenrecords/model/*.java src/main/java/com/example/citizenrecords/repository/*.java src/main/java/com/example/citizenrecords/ui/*.java src/main/java/com/example/citizenrecords/App.java src/test/java/com/example/citizenrecords/*.java
 ```
 
-Then launch the application:
+Then launch the desktop application:
 
 ```powershell
 java -cp out com.example.citizenrecords.App
+```
+
+## Run the Unit Tests (JUnit 5)
+
+Run the 10 automated unit test cases covering encapsulation, validation, inheritance, polymorphism, custom exceptions, and file persistence:
+
+```powershell
+java -jar lib/junit-platform-console-standalone.jar -cp out --select-class com.example.citizenrecords.CitizenRecordTest
 ```
 
 ## Features & Usage

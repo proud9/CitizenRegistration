@@ -36,7 +36,7 @@ import java.awt.Insets;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
-import java.util.Optional;
+import com.example.citizenrecords.exception.RecordNotFoundException;
 
 /** Desktop window for creating, searching, and updating synthetic demo records. */
 public class RecordManagerFrame extends JFrame {
@@ -246,13 +246,13 @@ public class RecordManagerFrame extends JFrame {
             showError("Enter an internal ID to search.");
             return;
         }
-        Optional<CitizenRecord> result = repository.findById(id);
-        if (!result.isPresent()) {
+        try {
+            repository.findById(id);
+            refreshRecords();
+            selectById(id);
+        } catch (RecordNotFoundException e) {
             showError("No record found for that internal ID.");
-            return;
         }
-        refreshRecords();
-        selectById(id);
     }
 
     private void selectById(String id) {

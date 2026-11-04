@@ -1,5 +1,6 @@
 package com.example.citizenrecords.repository;
 
+import com.example.citizenrecords.exception.RecordNotFoundException;
 import com.example.citizenrecords.model.BirthRecord;
 import com.example.citizenrecords.model.CitizenRecord;
 import com.example.citizenrecords.model.NRCApplication;
@@ -18,7 +19,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Persistent file-backed storage implementation of {@link RecordRepository}.
@@ -79,8 +79,15 @@ public class FileRecordRepository implements RecordRepository {
     }
 
     @Override
-    public synchronized Optional<CitizenRecord> findById(String recordId) {
-        return Optional.ofNullable(records.get(recordId));
+    public synchronized CitizenRecord findById(String recordId) throws RecordNotFoundException {
+        if (recordId == null || recordId.trim().isEmpty()) {
+            throw new IllegalArgumentException("Record ID cannot be null or empty.");
+        }
+        CitizenRecord record = records.get(recordId.trim());
+        if (record == null) {
+            throw new RecordNotFoundException("No record found with ID: " + recordId);
+        }
+        return record;
     }
 
     @Override
@@ -90,7 +97,10 @@ public class FileRecordRepository implements RecordRepository {
 
     @Override
     public synchronized boolean deleteById(String recordId) {
-        boolean removed = records.remove(recordId) != null;
+        if (recordId == null) {
+            return false;
+        }
+        boolean removed = records.remove(recordId.trim()) != null;
         if (removed) {
             persistRecords();
         }
@@ -147,7 +157,7 @@ public class FileRecordRepository implements RecordRepository {
     }
 
     /**
-     * Serializes a record polymorphic ally based on concrete subclass type.
+     * Serializes a record polymorphically based on concrete subclass type.
      */
     private String serializeRecord(CitizenRecord record) {
         if (record instanceof BirthRecord) {
